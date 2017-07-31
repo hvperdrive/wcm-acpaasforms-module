@@ -18,5 +18,5 @@ var PermissionsSecurity = require("app/helpers/modules/lib").PermissionsSecurity
 var baseUrl = "/" + config.api.prefix + config.api.version + "acpaasforms";
 
 module.exports = function(app) {
-	app.route(baseUrl + "/:form").post(ProfileSecurity, MethodSecurity.post, PermissionsSecurity, formController.submit);
+	app.route(baseUrl + "/:form").post(ProfileSecurity, MethodSecurity.create, PermissionsSecurity, formController.submit);
 };

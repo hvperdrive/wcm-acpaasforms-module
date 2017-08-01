@@ -7,36 +7,78 @@ process.env.APP = process.env.APP || "default";
 process.env.NODE_ENV = process.env.NODE_ENV.toLowerCase();
 process.env.APP = process.env.APP.toLowerCase();
 
-var path = require("path");
+require("rootpath")();
 var Q = require("q");
+var _ = require("lodash");
 var mongoose = require("mongoose");
-var chalk = require("chalk");
-var fixtures = require("mongoose-fixtures");
-var config = require("config")();
 
-var options;
+function getMongoPath() {
+	var argvIndex = _.findIndex(process.argv, function(val) {
+		return val.indexOf("mongodb://") !== -1;
+	});
 
-if (config.server.mongo && config.server.mongo.user && config.server.mongo.pwd) {
-	options = {
-		user: config.server.mongo.user,
-		pass: config.server.mongo.pwd,
-		auth: {
-			authdb: config.server.mongo.authdb,
-		},
-	};
+	if (argvIndex < 0 || argvIndex >= process.argv.length) {
+		return null;
+	}
+
+	return process.argv[argvIndex];
 }
 
-// Start mongoose connection
-mongoose.connect(config.server.mongo.url + "/" + config.server.mongo.db, options);
+function connect() {
+	var mongoPath = getMongoPath();
 
-// Set promise library for Mongoose
-mongoose.Promise = Q.Promise;
+	if (!mongoPath) {
+		console.log("No mongo path specified. Please use --mongo [mongoPath]");
+		return process.exit(1);
+	}
 
-// Require all models
-require("../models")();
+	try {
+		// Start mongoose connection
+		mongoose.connect(mongoPath);
+		mongoose.Promise = Q.Promise;
+	} catch (err) {
+		console.log("MONGOOSE CONNECTION ERROR", err);
+		process.exit(1);
+	}
+}
 
-// Load fixtures
-fixtures.load(path.join(__dirname, "../fixtures"), function(err) {
-	console.log(chalk.yellow("Fixtures executed succesfully.")); // eslint-disable-line no-console
-	process.exit();
-});
+function updateForms() {
+	connect();
+
+	var ContentTypeModel = require("app/models/contentType");
+	var forms = require("../fixtures/forms");
+
+	var updates = forms.map(function() {
+		return function(type) {
+			return ContentTypeModel.findOneAndUpdate({
+				uuid: type.uuid,
+			}, type, {
+				upsert: true,
+				new: true,
+			})
+			.exec();
+		};
+	});
+
+	function runQueue(queue) {
+		var result = Q.resolve();
+
+		queue.forEach(function(update, i) {
+			result = result.then(function() {
+				return update(forms[i]);
+			});
+		});
+
+		return result;
+	}
+
+	runQueue(updates).then(function() {
+		console.log("ALL TYPES UPDATED");
+		process.exit(0);
+	}, function(err) {
+		console.log(err);
+		process.exit(1);
+	});
+}
+
+updateForms();

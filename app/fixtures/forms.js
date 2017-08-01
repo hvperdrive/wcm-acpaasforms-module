@@ -2,79 +2,97 @@
 
 var ObjectId = require("mongoose").Types.ObjectId;
 
-// jscs:disable maximumLineLength
-
-// exports.FieldType = {
-// 	product: {
-// 		key: "product",
-// 		label: "Product",
-// 		type: "text",
-// 		dataType: "text",
-// 		isQueryable: false,
-// 		isTranslate: false,
-// 		isMultiple: false,
-// 		operators: [],
-// 		uuid: "3c4be04e-1234-4822-80d4-e3bcab21904e",
-// 	},
-// };
-
-exports.Form = {
-	featureForm: {
-		_id: ObjectId("58be333e0518d34c284c42e6"),
-		versions: [],
-		fields: [{
-		// 	"dataType": "product",
-		// 	label: "Product",
-		// 	type: "text",
-		// 	validation: {
-		// 		required: true,
-		// 	},
-		// 	_id: "title",
-		// 	indexed: false,
-		// 	multiLanguage: false,
-		// 	uuid: "3c4becce-7121-4845-8094-e3bc20e1904e",
-		// }, {
-			"dataType": "text",
-			label: "Subject",
-			type: "text",
-			validation: {
-				required: true,
+module.exports = [{
+	"_id": ObjectId("597f38a7a8fe2f5c348c62d4"),
+	"versions": [],
+	"fields": [
+		{
+			"_id": "subject",
+			"validation": {
+				"required": true,
 			},
-			_id: "subject",
-			indexed: false,
-			multiLanguage: false,
-			uuid: "3c2becce-7191-4845-8034-e3bc20e1a04e",
-		}, {
-			"dataType": "text",
-			label: "Message",
-			type: "text",
-			validation: {
-				required: true,
-			},
-			_id: "message",
-			indexed: false,
-			multiLanguage: false,
-			uuid: "3c2babce-2191-1845-8534-e3bc80e1a04a",
-		}, {
-			"dataType": "file",
-			indexed: false,
-			label: "Attachemnts",
-			type: "file",
-			min: 1,
-			max: 10,
-			multiLanguage: false,
-			validation: {
-				required: false,
-			},
-			uuid: "59abbc49-fe9a-42b7-97dc-31dd0304a202",
-		}],
-		meta: {
-			deleted: false,
-			slug: "feature",
-			description: "ACPaaS Portal Feature Form",
-			label: "Feature Form",
+			"type": "text",
+			"label": "Subject",
+			"operators": [],
+			"dataType": "string",
+			"indexed": false,
+			"multiLanguage": false,
+			"options": [],
+			"max": 1,
+			"min": 1,
+			"taxonomyLists": [],
+			"uuid": "0bd85853-e46d-4a0c-90eb-7808c5359b23",
 		},
-		uuid: "3925761e-13ad-468b-af31-75049557971e",
-		__v: 0,
+		{
+			"_id": "message",
+			"validation": {
+				"required": true,
+			},
+			"type": "textarea",
+			"label": "Message",
+			"operators": [],
+			"dataType": "string",
+			"indexed": false,
+			"multiLanguage": false,
+			"options": [],
+			"max": 1,
+			"min": 1,
+			"taxonomyLists": [],
+			"uuid": "a6d876ab-5d89-4106-be2e-edef67f9233d",
+		},
+		{
+			"_id": "attachments",
+			"validation": {
+				"required": false,
+			},
+			"type": "file",
+			"label": "Attachments",
+			"dataType": "file",
+			"indexed": false,
+			"multiLanguage": false,
+			"options": [],
+			"max": 10,
+			"min": 1,
+			"taxonomyLists": [],
+			"uuid": "5c8bbc49-fe9a-48b7-97dc-31dd6304a202",
+		},
+		{
+			"_id": "product",
+			"validation": {
+				"required": true,
+			},
+			"type": "content-reference",
+			"label": "Product",
+			"dataType": "object",
+			"indexed": false,
+			"multiLanguage": false,
+			"options": [],
+			"max": 1,
+			"min": 1,
+			"taxonomyLists": [],
+			"defaultValue": null,
+			"data": [
+				"d257cbc5-c438-4c25-8a77-7ed214cd5a10",
+			],
+			"uuid": "c6e7aff1-b191-4496-8b3b-6adb3456a4e5",
+		},
+	],
+	"meta": {
+		"label": "ACPaaS Portal Form",
+		"safeLabel": "acpaasportal-form",
+		"created": "2017-07-31T14:03:19.457Z",
+		"lastModified": "2017-08-01T08:39:28.876Z",
+		"lastEditor": "59131727b657f739e41014c9",
+		"description": "ACPaaS Portal Form",
+		"taxonomy": {
+			"available": [],
+			"fieldType": "Taxonomy",
+			"tags": [],
+		},
+		"hitCount": 0,
+		"deleted": false,
+		"canBeFiltered": false,
 	},
-};
+	"uuid": "52ff1516-3690-4b67-9dbd-5911d001099f",
+	"__v": 0,
+}];

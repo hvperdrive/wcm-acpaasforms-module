@@ -94,5 +94,4 @@ module.exports = [{
 		"canBeFiltered": false,
 	},
 	"uuid": "52ff1516-3690-4b67-9dbd-5911d001099f",
-	"__v": 0,
 }];

@@ -47,8 +47,9 @@ function updateForms() {
 
 	var ContentTypeModel = require("app/models/contentType");
 	var forms = require("../fixtures/forms");
+	var formTypes = Object.keys(forms);
 
-	var updates = forms.map(function() {
+	var updates = formTypes.map(function() {
 		return function(type) {
 			return ContentTypeModel.findOneAndUpdate({
 				uuid: type.uuid,
@@ -65,7 +66,7 @@ function updateForms() {
 
 		queue.forEach(function(update, i) {
 			result = result.then(function() {
-				return update(forms[i]);
+				return update(forms[formTypes[i]]);
 			});
 		});
 

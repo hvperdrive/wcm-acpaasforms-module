@@ -2,10 +2,51 @@
 
 var ObjectId = require("mongoose").Types.ObjectId;
 
-module.exports = [{
+var productForm = {
 	"_id": ObjectId("597f38a7a8fe2f5c348c62d4"),
 	"versions": [],
 	"fields": [
+		{
+			"_id": "product",
+			"validation": {
+				"required": true,
+			},
+			"type": "content-reference",
+			"label": "Product",
+			"dataType": "object",
+			"indexed": false,
+			"multiLanguage": false,
+			"options": [],
+			"max": 1,
+			"min": 1,
+			"taxonomyLists": [],
+			"defaultValue": null,
+			"data": [
+				"d257cbc5-c438-4c25-8a77-7ed214cd5a10",
+			],
+			"uuid": "c6e7aff1-b191-4496-8b3b-6adb3456a4e5",
+		},
+		{
+			"_id": "type",
+			"validation": {
+				"required": true,
+			},
+			"type": "select",
+			"label": "Type",
+			"dataType": "option",
+			"indexed": false,
+			"multiLanguage": false,
+			"options": [{
+				"label": "Support",
+				"key": "support",
+				"_id": "598195599fbf886bc9d1876e",
+			}, {
+				"label": "Feature Request",
+				"key": "feature-request",
+				"_id": "598195599fbf886bc9d1876d",
+			}],
+			"uuid": "106560ae-4cf1-4fe5-8a23-030f85bee18e",
+		},
 		{
 			"_id": "subject",
 			"validation": {
@@ -56,26 +97,6 @@ module.exports = [{
 			"taxonomyLists": [],
 			"uuid": "5c8bbc49-fe9a-48b7-97dc-31dd6304a202",
 		},
-		{
-			"_id": "product",
-			"validation": {
-				"required": true,
-			},
-			"type": "content-reference",
-			"label": "Product",
-			"dataType": "object",
-			"indexed": false,
-			"multiLanguage": false,
-			"options": [],
-			"max": 1,
-			"min": 1,
-			"taxonomyLists": [],
-			"defaultValue": null,
-			"data": [
-				"d257cbc5-c438-4c25-8a77-7ed214cd5a10",
-			],
-			"uuid": "c6e7aff1-b191-4496-8b3b-6adb3456a4e5",
-		},
 	],
 	"meta": {
 		"label": "ACPaaS Portal Form",
@@ -94,4 +115,8 @@ module.exports = [{
 		"canBeFiltered": false,
 	},
 	"uuid": "52ff1516-3690-4b67-9dbd-5911d001099f",
-}];
+};
+
+module.exports = {
+	productForm: productForm,
+};

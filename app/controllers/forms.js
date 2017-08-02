@@ -1,27 +1,28 @@
-var handlers = {
-	support: require("../helpers/support"),
-	feature: require("../helpers/feature"),
-};
+var _ = require("lodash");
 
-function getFormHandler(form) {
-	return handlers.hasOwnProperty(form) ? handlers[form] : null;
+var formHandler = require("./helpers/form");
+
+function validateFormData(formData) {
+	return ["product", "subject", "message"].reduce(function(errs, field) {
+		if (!formData || !formData.hasOwnProperty(field)) {
+			errs = _.assign({}, { field: "Missing " + field });
+		}
+
+		return errs;
+	}, null);
 }
 
 module.exports.submit = function submit(req, res) {
-	var formHandler = getFormHandler(req.params.form);
+	var validationErrors = validateFormData(req.body);
 
-	if (!formHandler) {
-		return res.status(400).json({
-			err: "Unknown form type.",
-		});
+	if (validationErrors) {
+		return res.status(400).json(validationErrors);
 	}
 
-	formHandler.submit(req.body)
+	formHandler.submit(req.body, req.params.form)
 		.then(function(result) {
 			res.status(200).json(result);
-		}, function(err) {
-			res.status(500).json({
-				err: err,
-			});
+		}, function(errResponse) {
+			res.status(_.get(errResponse, "statusCode", 500)).json(_.get(errResponse, "err", errResponse));
 		});
 };

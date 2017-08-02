@@ -26,7 +26,7 @@ function createForm(formData, type) {
 	try {
 		var types = {
 			support: "productForm",
-			feature: "productForm"
+			feature: "productForm",
 		};
 		var formType = formTypes[types[type]];
 		var form = {
@@ -35,7 +35,7 @@ function createForm(formData, type) {
 				message: formData.message,
 				product: {
 					value: formData.product,
-				}
+				},
 			},
 			meta: {
 				label: formData.subject,
@@ -65,7 +65,7 @@ function createForm(formData, type) {
 
 module.exports.submit = function(formData, type) {
 	return productExists(formData.product)
-		.then(function () {
+		.then(function() {
 			console.log("PRODUCT EXISTS");
 			return createForm(formData, type);
 		}, function(err) {

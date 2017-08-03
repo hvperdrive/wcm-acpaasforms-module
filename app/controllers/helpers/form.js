@@ -1,4 +1,5 @@
 require("rootpath")();
+var Q = require("q");
 
 var ContentModel = require("app/models/content");
 var formTypes = require("../../fixtures/forms");
@@ -22,53 +23,44 @@ function productExists(uuid) {
 		});
 }
 
-function createForm(formData, type) {
-	try {
-		var types = {
-			support: "productForm",
-			feature: "productForm",
-		};
-		var formType = formTypes[types[type]];
-		var form = {
-			fields: {
-				subject: formData.subject,
-				message: formData.message,
-				product: {
-					value: formData.product,
-				},
-			},
-			meta: {
-				label: formData.subject,
-				publishData: new Date().toISOString(),
-				status: "PUBLISHED",
-				published: true,
-				activeLanguages: ["nl"],
-				contentType: formType._id.toString(),
-			},
-		};
+function getFormType(type) {
+	var types = {
+		support: "productForm",
+		feature: "productForm",
+	};
 
-		console.log("FORM:", form);
-
-		return ContentModel
-			.create(form)
-			.then(function(item) {
-				console.log("CREATED ITEM:", item);
-				return item;
-			}, function(err) {
-				console.log("CREATE ERROR:", err);
-				throw err;
-			});
-	} catch (e) {
-		console.log("ERR", e);
-	}
+	return formTypes[types[type]];
 }
 
-module.exports.submit = function(formData, type) {
+function parseForm(formData, type) {
+	return {
+		fields: {
+			subject: formData.subject,
+			message: formData.message,
+			product: formData.product,
+			type: type,
+		},
+		meta: {
+			label: formData.subject,
+			publishData: new Date().toISOString(),
+			status: "PUBLISHED",
+			published: true,
+			activeLanguages: ["nl"],
+			contentType: getFormType(type)._id.toString(),
+		},
+	};
+}
+
+function handleAttachments(type, formData, attachments) {
+	return Q.resolve(formData);
+}
+
+function createForm(type, formData) {
+	return ContentModel.create(parseForm(formData, type));
+}
+
+module.exports.submit = function(formData, attachments, type) {
 	return productExists(formData.product)
-		.then(function() {
-			console.log("PRODUCT EXISTS");
-			return createForm(formData, type);
-		}, function(err) {
-			throw err;
-		});
+		.then(handleAttachments.bind(null, type, formData, attachments))
+		.then(createForm.bind(null, type));
 };

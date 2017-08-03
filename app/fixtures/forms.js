@@ -92,7 +92,7 @@ var productForm = {
 			"indexed": false,
 			"multiLanguage": false,
 			"options": [],
-			"max": 10,
+			"max": 5,
 			"min": 1,
 			"taxonomyLists": [],
 			"uuid": "5c8bbc49-fe9a-48b7-97dc-31dd6304a202",

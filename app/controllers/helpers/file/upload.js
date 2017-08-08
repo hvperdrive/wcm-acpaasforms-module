@@ -5,6 +5,7 @@ var fs = require("fs");
 var variablesHelper = require("../../../helpers/variables");
 var runQueue = require("../../../helpers/queue");
 var fileHelpers = require("../../../helpers/file");
+var removeFile = require("./remove");
 
 var quotaReached = function(resp) {
 	return Object(resp) === resp && resp.hasOwnProperty("Messages") && resp.Messages.length && resp.Messages[0].hasOwnProperty("Message") && resp.Messages[0].Message.indexOf("Upload failed, not enough free quota") >= 0;
@@ -29,8 +30,6 @@ function uploadFile(file) {
 			},
 			json: true,
 		};
-
-		return resolve(options);
 
 		request(options, function(err, data, body) {
 			if (!err && data.statusCode === 200 && body.hasOwnProperty("assetId") && body.hasOwnProperty("mediafileId")) {
@@ -70,9 +69,26 @@ function uploadFiles(files) {
 		};
 	})).then(function(uploaded) {
 		return uploaded;
-	}, function(err) {
-		throw err;
+	}, function(response) {
+		if (response.results.length) {
+			return removeFiles(response.results)
+				.then(function() {
+					throw response.err;
+				}, function(err) {
+					throw err;
+				});
+		}
+
+		throw response.err;
 	});
+}
+
+function removeFiles(files) {
+	return runQueue(files.map(function(file) {
+		return function() {
+			return removeFile(file.assetId);
+		};
+	}));
 }
 
 module.exports = function(files) {

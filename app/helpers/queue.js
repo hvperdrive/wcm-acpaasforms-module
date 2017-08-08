@@ -19,6 +19,9 @@ module.exports = function runQueue(queue) {
 
 		return results;
 	}, function(err) {
-		throw err;
+		return Q.reject({
+			err: err,
+			results: results,
+		});
 	});
 };

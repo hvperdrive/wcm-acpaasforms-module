@@ -1,4 +1,4 @@
-var variablesHelper = require("./helpers/variables");
+var variablesHelper = require("./variables");
 
 module.exports.filename = function filename(originalName) {
 	var parts = originalName.split(".");

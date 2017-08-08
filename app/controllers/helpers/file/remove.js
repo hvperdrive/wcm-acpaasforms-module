@@ -14,7 +14,7 @@ module.exports = function(assetId) {
 				apiKey: env.apiKey,
 			},
 			json: true,
-		};
+        };
 
 		request(options, function(err, data, body) {
 			if (data.statusCode === 204 || data.statusCode === 404) {

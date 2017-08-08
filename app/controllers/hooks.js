@@ -1,9 +1,8 @@
-// var variablesHelper = require("../helpers/variables");
+var variablesHelper = require("../helpers/variables");
 
 var onConfigurationChanged = function onConfigurationChanged() {
-	console.log("on configuration changed");
 	// Reload config
-	// variablesHelper.reload();
+	variablesHelper.reload();
 };
 
 var beforeRemove = function beforeRemove() {

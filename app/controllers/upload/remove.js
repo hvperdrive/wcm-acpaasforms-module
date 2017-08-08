@@ -1,16 +1,17 @@
 var request = require("request");
 var Promise = require("pinkie");
 
-var env = require("../../config");
+var variablesHelper = require("../../helpers/variables");
 
 module.exports = function(assetId) {
 	return new Promise(function(resolve, reject) {
+		var env = variablesHelper().digitalAssets.variables;
 		// Set options
 		var options = {
 			method: "delete",
-			url: env.digitalAssets.target + "/api/assets/" + assetId + "?userId=" + env.digitalAssets.userId,
+			url: env.target + "/api/assets/" + assetId + "?userId=" + env.userId,
 			headers: {
-				apiKey: env.digitalAssets.apiKey,
+				apiKey: env.apiKey,
 			},
 			json: true,
 		};

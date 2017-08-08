@@ -1,6 +1,6 @@
 {
     "name": "acpaasforms",
-    "version": "0.0.38",
+    "version": "0.0.40",
     "description": "Forms module for AcPaaS Portal",
     "main": "app/routes/index.js",
     "scripts": {
@@ -16,6 +16,36 @@
             "dirPath": "app/",
             "routeDirPaths": [
                 "app/routes/"
+            ],
+            "variables": [
+                {
+                    "group": "Digital Assets Manager Setup",
+                    "key": "digitalAssets",
+                    "accordion": true,
+                    "variables": [
+                        {
+                            "label": "Digital Assets api Url",
+                            "description": "Url of the DAM Express api",
+                            "key": "target",
+                            "type": "text",
+                            "required": true
+                        },
+                        {
+                            "label": "Digital Assets apiKey",
+                            "description": "ApiKey of the DAM Express contract",
+                            "key": "apiKey",
+                            "type": "text",
+                            "required": true
+                        },
+                        {
+                            "label": "Digital Assets userId",
+                            "description": "UserId of the DAM Express contract",
+                            "key": "userId",
+                            "type": "text",
+                            "required": true
+                        }
+                    ]
+                }
             ]
         }
     },

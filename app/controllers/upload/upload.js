@@ -2,7 +2,7 @@ var Promise = require("pinkie");
 var request = require("request");
 var fs = require("fs");
 
-var env = require("../../config");
+var variablesHelper = require("../../helpers/variables");
 var helpers = require("./helpers");
 
 var quotaReached = function(resp) {
@@ -15,15 +15,17 @@ module.exports = function(item, thumbnail) {
 	}
 
 	return new Promise(function(resolve, reject) {
+		var env = variablesHelper().digitalAssets.variables;
+
 		var options = {
 			method: "post",
-			url: env.digitalAssets.target + "/api/mediafiles",
+			url: env.target + "/api/mediafiles",
 			headers: {
-				apiKey: env.digitalAssets.apiKey,
+				apiKey: env.apiKey,
 				"Content-Type": "multipart/form-data",
 			},
 			formData: {
-				userId: env.digitalAssets.userId,
+				userId: env.userId,
 				file: fs.createReadStream(item.path),
 				generateThumbnail: String(thumbnail),
 				returnThumbnailUrl: String(thumbnail),

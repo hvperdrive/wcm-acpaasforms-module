@@ -10,4 +10,11 @@ var storage = multer.diskStorage({
 
 module.exports = multer({
 	storage: storage,
+	limits: {
+		fileSize: 512000000,
+		files: 5,
+	},
+	fileFilter: function(req, file, cb) {
+		cb(null, fileHelpers.validMimeType(file));
+	},
 });

@@ -4,7 +4,7 @@ var _ = require("lodash");
 
 var ContentModel = require("app/models/content");
 var formTypes = require("../../fixtures/forms");
-var uploadHelper = require("../upload");
+var fileHelper = require("./file");
 
 function productExists(uuid) {
 	return ContentModel
@@ -59,36 +59,14 @@ function parseForm(formData, type) {
 }
 
 function handleAttachments(type, formData, attachments) {
-	var uploaded = [];
-
-	return runQueue(attachments.map(function(attachment) {
-		return function() {
-			return uploadHelper.upload(attachment)
-				.then(function(response) {
-					uploaded.push(response);
-				}, function(err) {
-					return Q.resolve();
-				});
-		};
-	})).then(function() {
-		return _.assign(formData, {
-			attachments: uploaded,
+	return fileHelper.upload(attachments)
+		.then(function(files) {
+			return _.assign(formData, {
+				attachments: files,
+			});
+		}, function(err) {
+			throw err;
 		});
-	}, function(err) {
-		throw err;
-	});
-}
-
-function runQueue(queue) {
-	var result = Q.resolve();
-
-	queue.forEach(function(update, i) {
-		result = result.then(function() {
-			return update(i);
-		});
-	});
-
-	return result;
 }
 
 function createForm(type, formData) {
@@ -98,5 +76,5 @@ function createForm(type, formData) {
 module.exports.submit = function(formData, attachments, type) {
 	return productExists(formData.product)
 		.then(handleAttachments.bind(null, type, formData, attachments))
-		.then(createForm.bind(null, type));
+		// .then(createForm.bind(null, type));
 };

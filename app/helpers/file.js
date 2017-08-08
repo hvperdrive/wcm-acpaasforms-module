@@ -1,4 +1,4 @@
-var variablesHelper = require("../../../helpers/variables");
+var variablesHelper = require("./helpers/variables");
 
 module.exports.filename = function filename(originalName) {
 	var parts = originalName.split(".");
@@ -14,10 +14,27 @@ module.exports.extension = function extension(filename) {
 
 module.exports.isImage = function isImage(mimetype) {
 	return !!mimetype && mimetype.indexOf("image") >= 0;
-}
+};
 
 module.exports.validMimeType = function validMimeType(file) {
-    var mimeTypes = variablesHelper().fileUpload.variables.mimeTypes.split(",");
+	var mimeTypes = variablesHelper().fileUpload.variables.mimeTypes.split(",");
 
-    return mimeTypes.indexOf(file.mimetype) >= 0;
+	return mimeTypes.indexOf(file.mimetype) >= 0;
+};
+
+module.exports.link = function link(data, type) {
+	var result;
+	var item = data.find(function(d) {
+		return d.rel === type;
+	});
+
+	if (item) {
+		result = item.href;
+	}
+
+	if (type === "download") {
+		result = result.replace("/download/", "/media/");
+	}
+
+	return result;
 };

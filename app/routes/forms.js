@@ -1,7 +1,6 @@
 require("rootpath")();
-var multer = require("multer");
-var upload = multer();
 
+var multer = require("../controllers/upload").multer;
 var formController = require("../controllers/forms");
 
 // Get the configuration of the WCM
@@ -20,5 +19,5 @@ var PermissionsSecurity = require("app/helpers/modules/lib").PermissionsSecurity
 var baseUrl = "/" + config.api.prefix + config.api.version + "acpaasforms";
 
 module.exports = function(app) {
-	app.route(baseUrl + "/:form").post(upload.array("attachments", 5), ProfileSecurity, MethodSecurity.create, PermissionsSecurity, formController.submit);
+	app.route(baseUrl + "/:form").post(multer.array("attachments", 5), ProfileSecurity, MethodSecurity.create, PermissionsSecurity, formController.submit);
 };

@@ -1,8 +1,10 @@
 require("rootpath")();
 var Q = require("q");
+var _ = require("lodash");
 
 var ContentModel = require("app/models/content");
 var formTypes = require("../../fixtures/forms");
+var uploadHelper = require("../upload");
 
 function productExists(uuid) {
 	return ContentModel
@@ -39,6 +41,7 @@ function parseForm(formData, type) {
 			message: formData.message,
 			product: formData.product,
 			type: type,
+			attachments: formData.attachments,
 		},
 		meta: {
 			label: formData.subject,
@@ -52,7 +55,36 @@ function parseForm(formData, type) {
 }
 
 function handleAttachments(type, formData, attachments) {
-	return Q.resolve(formData);
+	var uploaded = [];
+
+	return runQueue(attachments.map(function(attachment) {
+		return function() {
+			return uploadHelper.upload(attachment)
+				.then(function(response) {
+					uploaded.push(response);
+				}, function(err) {
+					return Q.resolve();
+				});
+		};
+	})).then(function() {
+		return _.assign(formData, {
+			attachments: uploaded,
+		});
+	}, function(err) {
+		throw err;
+	});
+}
+
+function runQueue(queue) {
+	var result = Q.resolve();
+
+	queue.forEach(function(update, i) {
+		result = result.then(function() {
+			return update(i);
+		});
+	});
+
+	return result;
 }
 
 function createForm(type, formData) {

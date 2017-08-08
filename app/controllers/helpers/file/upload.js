@@ -2,15 +2,15 @@ var Promise = require("pinkie");
 var request = require("request");
 var fs = require("fs");
 
-var variablesHelper = require("../../helpers/variables");
-var helpers = require("./helpers");
-var fileHelpers = require("./helpers").file;
+var variablesHelper = require("../../../helpers/variables");
+var runQueue = require("../../../helpers/queue");
+var fileHelpers = require("../../../helpers/file");
 
 var quotaReached = function(resp) {
 	return Object(resp) === resp && resp.hasOwnProperty("Messages") && resp.Messages.length && resp.Messages[0].hasOwnProperty("Message") && resp.Messages[0].Message.indexOf("Upload failed, not enough free quota") >= 0;
 };
 
-module.exports = function(item) {
+function uploadFile(file) {
 	return new Promise(function(resolve, reject) {
 		var env = variablesHelper().digitalAssets.variables;
 
@@ -23,20 +23,22 @@ module.exports = function(item) {
 			},
 			formData: {
 				userId: env.userId,
-				file: fs.createReadStream(item.path),
-				generateThumbnail: String(fileHelpers.isImage(item.mimetype)),
-				returnThumbnailUrl: String(fileHelpers.isImage(item.mimetype)),
+				file: fs.createReadStream(file.path),
+				generateThumbnail: String(fileHelpers.isImage(file.mimetype)),
+				returnThumbnailUrl: String(fileHelpers.isImage(file.mimetype)),
 			},
 			json: true,
 		};
+
+		return resolve(options);
 
 		request(options, function(err, data, body) {
 			if (!err && data.statusCode === 200 && body.hasOwnProperty("assetId") && body.hasOwnProperty("mediafileId")) {
 				resolve({
 					assetId: body.assetId,
 					mediafileId: body.mediafileId,
-					thumbnail: helpers.link(body.links, "thumbnail"),
-					full: helpers.link(body.links, "download"),
+					thumbnail: fileHelpers.link(body.links, "thumbnail"),
+					full: fileHelpers.link(body.links, "download"),
 				});
 			} else {
 				// Update status code to 402 if the quota is reached
@@ -59,4 +61,20 @@ module.exports = function(item) {
 			}
 		});
 	});
+}
+
+function uploadFiles(files) {
+	return runQueue(files.map(function(file) {
+		return function() {
+			return uploadFile(file);
+		};
+	})).then(function(uploaded) {
+		return uploaded;
+	}, function(err) {
+		throw err;
+	});
+}
+
+module.exports = function(files) {
+	return Array.isArray(files) ? uploadFiles(files) : uploadFile(files);
 };

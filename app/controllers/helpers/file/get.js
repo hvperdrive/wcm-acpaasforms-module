@@ -1,7 +1,7 @@
 var request = require("request");
 var Promise = require("pinkie");
 
-var variablesHelper = require("../../helpers/variables");
+var variablesHelper = require("../../../helpers/variables");
 
 module.exports = function(assetId, mediaFileId) {
 	return new Promise(function(resolve, reject) {

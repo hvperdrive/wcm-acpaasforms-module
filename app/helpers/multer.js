@@ -1,5 +1,5 @@
 var multer = require("multer");
-var fileHelpers = require("./helpers/file");
+var fileHelpers = require("./file");
 
 var storage = multer.diskStorage({
 	destination: "/tmp",

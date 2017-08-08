@@ -1,6 +1,6 @@
 require("rootpath")();
 
-var multer = require("../controllers/upload").multer;
+var multer = require("../helpers/multer");
 var verifyLogin = require("../helpers/auth").verifyLogin;
 var formController = require("../controllers/forms");
 

@@ -1,5 +1,7 @@
 var link = require("./link");
+var file = require("./file");
 
 module.exports = {
-	link: link,
+    link: link,
+    file: file,
 };

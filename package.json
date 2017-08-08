@@ -45,6 +45,21 @@
                             "required": true
                         }
                     ]
+                },
+                {
+                    "group": "File upload config",
+                    "key": "fileUpload",
+                    "accordion": true,
+                    "variables": [
+                        {
+                            "label": "Allowed Mime Types",
+                            "description": "List of allowed mime types (comma separated)",
+                            "key": "mimeTypes",
+                            "type": "text",
+                            "required": true,
+                            "value": "application/msword,application/vnd.ms-excel,application/vnd.ms-excel.template.macroEnabled.12,application/vnd.ms-excel.template.macroenabled.12,application/vnd.ms-excel.sheet.macroEnabled.12,application/vnd.ms-excel.sheet.macroenabled.12,application/vnd.ms-powerpoint,application/msword,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/jpeg,image/png,image/pjpeg,image/gif,image/svg+xml,text/csv,text/plain,text/vcard,text/xml,text/x-markdown,application/zip,application/x-zip,application/x-zip-compressed"
+                        }
+                    ]
                 }
             ]
         }

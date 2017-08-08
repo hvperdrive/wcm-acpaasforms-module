@@ -86,9 +86,9 @@ var productForm = {
 			"validation": {
 				"required": false,
 			},
-			"type": "file",
+			"type": "textarea",
 			"label": "Attachments",
-			"dataType": "file",
+			"dataType": "text",
 			"indexed": false,
 			"multiLanguage": false,
 			"options": [],

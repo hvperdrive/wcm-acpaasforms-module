@@ -41,7 +41,11 @@ function parseForm(formData, type) {
 			message: formData.message,
 			product: formData.product,
 			type: type,
-			attachments: formData.attachments,
+			attachments: formData.attachments.map(function(attachment) {
+				return {
+					value: JSON.stringify(attachment, null, 2),
+				};
+			}),
 		},
 		meta: {
 			label: formData.subject,

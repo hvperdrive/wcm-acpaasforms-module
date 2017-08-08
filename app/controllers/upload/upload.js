@@ -4,16 +4,13 @@ var fs = require("fs");
 
 var variablesHelper = require("../../helpers/variables");
 var helpers = require("./helpers");
+var fileHelpers = require("./helpers").file;
 
 var quotaReached = function(resp) {
 	return Object(resp) === resp && resp.hasOwnProperty("Messages") && resp.Messages.length && resp.Messages[0].hasOwnProperty("Message") && resp.Messages[0].Message.indexOf("Upload failed, not enough free quota") >= 0;
 };
 
-module.exports = function(item, thumbnail) {
-	if (thumbnail === undefined) {
-		thumbnail = true;
-	}
-
+module.exports = function(item) {
 	return new Promise(function(resolve, reject) {
 		var env = variablesHelper().digitalAssets.variables;
 
@@ -27,8 +24,8 @@ module.exports = function(item, thumbnail) {
 			formData: {
 				userId: env.userId,
 				file: fs.createReadStream(item.path),
-				generateThumbnail: String(thumbnail),
-				returnThumbnailUrl: String(thumbnail),
+				generateThumbnail: String(fileHelpers.isImage(item.mimetype)),
+				returnThumbnailUrl: String(fileHelpers.isImage(item.mimetype)),
 			},
 			json: true,
 		};

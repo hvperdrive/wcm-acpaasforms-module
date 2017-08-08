@@ -1,6 +1,6 @@
 var Promise = require("pinkie");
 var request = require("request");
-var streamifier = require("streamifier");
+var fs = require("fs");
 
 var env = require("../../config");
 var helpers = require("./helpers");
@@ -20,10 +20,11 @@ module.exports = function(item, thumbnail) {
 			url: env.digitalAssets.target + "/api/mediafiles",
 			headers: {
 				apiKey: env.digitalAssets.apiKey,
+				"Content-Type": "multipart/form-data",
 			},
 			formData: {
 				userId: env.digitalAssets.userId,
-				file: streamifier.createReadStream(item.buffer),
+				file: fs.createReadStream(item.path),
 				generateThumbnail: String(thumbnail),
 				returnThumbnailUrl: String(thumbnail),
 			},

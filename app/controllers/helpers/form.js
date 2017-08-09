@@ -48,7 +48,7 @@ function parseForm(formData, type) {
 			}),
 		},
 		meta: {
-			label: formData.subject,
+			label: "User form: " + formData.subject,
 			publishData: new Date().toISOString(),
 			status: "PUBLISHED",
 			published: true,

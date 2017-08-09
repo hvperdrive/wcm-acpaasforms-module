@@ -76,5 +76,5 @@ function createForm(type, formData) {
 module.exports.submit = function(formData, attachments, type) {
 	return productExists(formData.product)
 		.then(handleAttachments.bind(null, type, formData, attachments))
-		// .then(createForm.bind(null, type));
+		.then(createForm.bind(null, type));
 };

@@ -1,6 +1,7 @@
 var Promise = require("pinkie");
 var request = require("request");
 var fs = require("fs");
+var _ = require("lodash");
 
 var variablesHelper = require("../../../helpers/variables");
 var runQueue = require("../../../helpers/queue");
@@ -40,21 +41,8 @@ function uploadFile(file) {
 					full: fileHelpers.link(body.links, "download"),
 				});
 			} else {
-				// Update status code to 402 if the quota is reached
-				if (quotaReached(body)) {
-					data.statusCode = 402;
-				}
-
-				if (data) {
-					data.statusCode = data.statusCode || 500;
-				} else {
-					data = {
-						statusCode: 500,
-					};
-				}
-
 				reject({
-					status: data.statusCode,
+					status: quotaReached(body) ? 402 : _.get(data, "statusCode", 500),
 					message: "Unable to upload image to the asset server.",
 				});
 			}
@@ -70,11 +58,14 @@ function uploadFiles(files) {
 	})).then(function(uploaded) {
 		return uploaded;
 	}, function(response) {
+		// if a file failed to upload, remove already uploaded files
 		if (response.results.length) {
 			return removeFiles(response.results)
 				.then(function() {
+					// throw the original error
 					throw response.err;
 				}, function(err) {
+					// throw an error if a removal went wrong
 					throw err;
 				});
 		}

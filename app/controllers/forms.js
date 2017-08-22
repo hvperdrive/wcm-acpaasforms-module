@@ -1,6 +1,8 @@
+require("rootpath")();
 var _ = require("lodash");
 var toObj = require("form-data-to-object").toObj;
 
+var EventEmitter = require("app/middleware/emitter");
 var formHandler = require("./helpers/form");
 
 function validateFormData(formData) {
@@ -13,6 +15,10 @@ function validateFormData(formData) {
 	}, null);
 }
 
+function formEvent(form) {
+	return "acpaasforms" + _.capitalize(_.camelCase(form)) + "Submit";
+}
+
 module.exports.submit = function submit(req, res) {
 	var formData = toObj(req.body);
 	var validationErrors = validateFormData(formData);
@@ -23,6 +29,7 @@ module.exports.submit = function submit(req, res) {
 
 	formHandler.submit(formData, req.files, req.params.form)
 		.then(function(result) {
+			EventEmitter.emit(formEvent(req.params.form), result);
 			res.status(200).json(result);
 		}, function(errResponse) {
 			res.status(_.get(errResponse, "statusCode", 500)).json(_.get(errResponse, "err", errResponse));

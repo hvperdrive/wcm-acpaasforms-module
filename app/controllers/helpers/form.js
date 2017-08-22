@@ -28,7 +28,7 @@ function productExists(uuid) {
 function getFormType(type) {
 	var types = {
 		support: "productForm",
-		feature: "productForm",
+		"feature-request": "productForm",
 	};
 
 	return formTypes[types[type]];

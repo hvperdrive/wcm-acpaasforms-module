@@ -1,6 +1,6 @@
 {
     "name": "acpaasforms",
-    "version": "0.0.49",
+    "version": "0.0.51",
     "description": "Forms module for AcPaaS Portal",
     "main": "app/routes/index.js",
     "scripts": {

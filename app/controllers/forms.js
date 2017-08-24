@@ -6,7 +6,7 @@ var EventEmitter = require("app/middleware/emitter");
 var formHandler = require("./helpers/form");
 
 function validateFormData(formData) {
-	return ["product", "subject", "message"].reduce(function(errs, field) {
+	return ["product", "subject", "message", "name"].reduce(function(errs, field) {
 		if (!formData || !formData.hasOwnProperty(field)) {
 			errs = _.assign({}, { field: "Missing " + field });
 		}

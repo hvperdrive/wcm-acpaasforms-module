@@ -48,6 +48,57 @@ var productForm = {
 			"uuid": "106560ae-4cf1-4fe5-8a23-030f85bee18e",
 		},
 		{
+			"_id": "externalKey",
+			"validation": {
+				"required": true,
+			},
+			"type": "text",
+			"label": "JIRA project key",
+			"operators": [],
+			"dataType": "string",
+			"indexed": false,
+			"multiLanguage": false,
+			"options": [],
+			"max": 1,
+			"min": 1,
+			"taxonomyLists": [],
+			"uuid": "8fd1f970-b72e-4e6d-887c-e8de86901d22"
+		},
+		{
+			"_id": "name",
+			"validation": {
+				"required": true,
+			},
+			"type": "text",
+			"label": "Naam",
+			"operators": [],
+			"dataType": "string",
+			"indexed": false,
+			"multiLanguage": false,
+			"options": [],
+			"max": 1,
+			"min": 1,
+			"taxonomyLists": [],
+			"uuid": "1d40aef2-a4af-4dcc-8cf8-1f81e2c80da2"
+		},
+		{
+			"_id": "email",
+			"validation": {
+				"required": false,
+			},
+			"type": "email",
+			"label": "JIRA project key",
+			"operators": [],
+			"dataType": "string",
+			"indexed": false,
+			"multiLanguage": false,
+			"options": [],
+			"max": 1,
+			"min": 1,
+			"taxonomyLists": [],
+			"uuid": "da2a6ab6-dd4b-4745-8442-6d3e9d06d41e"
+		},
+		{
 			"_id": "subject",
 			"validation": {
 				"required": true,

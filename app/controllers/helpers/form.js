@@ -8,7 +8,7 @@ var fileHelper = require("./file");
 
 function productExists(uuid) {
 	return ContentModel
-		.findOne({ uuid: uuid }, { uuid: 1 })
+		.findOne({ uuid: uuid }, { uuid: 1, "fields.jiraProjectKey": 1 })
 		.lean()
 		.exec()
 		.then(function(response) {
@@ -34,12 +34,15 @@ function getFormType(type) {
 	return formTypes[types[type]];
 }
 
-function parseForm(formData, type) {
+function parseForm(formData, type, product) {
 	return {
 		fields: {
 			subject: formData.subject,
 			message: formData.message,
 			product: formData.product,
+			externalKey: _.get(product, "fields.jiraProjectKey", ""),
+			name: formData.name,
+			email: formData.email,
 			type: type,
 			attachments: formData.attachments.map(function(attachment) {
 				return {
@@ -69,12 +72,14 @@ function handleAttachments(type, formData, attachments) {
 		});
 }
 
-function createForm(type, formData) {
-	return ContentModel.create(parseForm(formData, type));
+function createForm(type, product, formData) {
+	return ContentModel.create(parseForm(formData, type, product));
 }
 
 module.exports.submit = function(formData, attachments, type) {
 	return productExists(formData.product)
-		.then(handleAttachments.bind(null, type, formData, attachments))
-		.then(createForm.bind(null, type));
+		.then(function(product) {
+			return handleAttachments(type, formData, attachments)
+				.then(createForm.bind(null, type, product));
+		});
 };

@@ -28,21 +28,24 @@
                             "description": "Url of the DAM Express api",
                             "key": "target",
                             "type": "text",
-                            "required": true
+                            "required": true,
+                            "value": ""
                         },
                         {
                             "label": "Digital Assets apiKey",
                             "description": "ApiKey of the DAM Express contract",
                             "key": "apiKey",
                             "type": "text",
-                            "required": true
+                            "required": true,
+                            "value": ""
                         },
                         {
                             "label": "Digital Assets userId",
                             "description": "UserId of the DAM Express contract",
                             "key": "userId",
                             "type": "text",
-                            "required": true
+                            "required": true,
+                            "value": ""
                         }
                     ]
                 },

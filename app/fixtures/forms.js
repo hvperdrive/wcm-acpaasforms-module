@@ -87,7 +87,7 @@ var productForm = {
 				"required": false,
 			},
 			"type": "email",
-			"label": "JIRA project key",
+			"label": "E-mail",
 			"operators": [],
 			"dataType": "string",
 			"indexed": false,

@@ -6,7 +6,7 @@ var EventEmitter = require("app/middleware/emitter");
 var formHandler = require("./helpers/form");
 
 function validateFormData(formData) {
-	return ["product", "subject", "message", "name"].reduce(function(errs, field) {
+	return ["product", "subject", "message"].reduce(function(errs, field) {
 		if (!formData || !formData.hasOwnProperty(field)) {
 			errs = _.assign({}, { field: "Missing " + field });
 		}
@@ -27,7 +27,7 @@ module.exports.submit = function submit(req, res) {
 		return res.status(400).json(validationErrors);
 	}
 
-	formHandler.submit(formData, req.files, req.params.form)
+	formHandler.submit(formData, req.files, req.params.form, req.member)
 		.then(function(result) {
 			EventEmitter.emit(formEvent(req.params.form), result);
 			res.status(200).json(result);

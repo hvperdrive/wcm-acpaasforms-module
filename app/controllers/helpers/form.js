@@ -8,7 +8,7 @@ var fileHelper = require("./file");
 
 function productExists(uuid) {
 	return ContentModel
-		.findOne({ uuid: uuid }, { uuid: 1, "fields.jiraProjectKey": 1 })
+		.findOne({ uuid: uuid }, { uuid: 1, "fields.externalKey": 1 })
 		.lean()
 		.exec()
 		.then(function(response) {
@@ -34,15 +34,15 @@ function getFormType(type) {
 	return formTypes[types[type]];
 }
 
-function parseForm(formData, type, product) {
+function parseForm(formData, type, product, user) {
 	return {
 		fields: {
 			subject: formData.subject,
 			message: formData.message,
 			product: formData.product,
-			externalKey: _.get(product, "fields.jiraProjectKey", ""),
-			name: formData.name,
-			email: formData.email,
+			externalKey: _.get(product, "fields.externalKey", ""),
+			name: _.get(user, "data.fullName", ""),
+			email: _.get(user, "data.email", ""),
 			type: type,
 			attachments: formData.attachments.map(function(attachment) {
 				return {
@@ -72,14 +72,14 @@ function handleAttachments(type, formData, attachments) {
 		});
 }
 
-function createForm(type, product, formData) {
-	return ContentModel.create(parseForm(formData, type, product));
+function createForm(type, product, user, formData) {
+	return ContentModel.create(parseForm(formData, type, product, user));
 }
 
-module.exports.submit = function(formData, attachments, type) {
+module.exports.submit = function(formData, attachments, type, user) {
 	return productExists(formData.product)
 		.then(function(product) {
 			return handleAttachments(type, formData, attachments)
-				.then(createForm.bind(null, type, product));
+				.then(createForm.bind(null, type, product, user));
 		});
 };

@@ -15,6 +15,8 @@ module.exports = multer({
 		files: 5,
 	},
 	fileFilter: function(req, file, cb) {
-		cb(null, fileHelpers.validMimeType(file));
+		fileHelpers.validMimeType(file)
+			.then(cb.bind(null, null), cb);
+
 	},
 });

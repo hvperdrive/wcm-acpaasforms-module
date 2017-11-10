@@ -1,5 +1,4 @@
 require("rootpath")();
-var Q = require("q");
 var _ = require("lodash");
 
 var ContentModel = require("app/models/content");
@@ -8,7 +7,20 @@ var fileHelper = require("./file");
 
 function productExists(uuid) {
 	return ContentModel
-		.findOne({ uuid: uuid }, { uuid: 1, "fields.externalKey": 1 })
+		.findOne({ uuid: uuid }, {
+			"_id": 0,
+			"uuid": 1,
+
+			"fields.externalKey": 1,
+			"fields.title": 1,
+			"fields.intro": 1,
+
+			"meta.label": 1,
+			"meta.safeLabel": 1,
+			"meta.slug": 1,
+			"meta.created": 1,
+			"meta.lastModified": 1,
+		})
 		.lean()
 		.exec()
 		.then(function(response) {
@@ -40,6 +52,7 @@ function parseForm(formData, type, product, user) {
 			subject: formData.subject,
 			message: formData.message,
 			product: formData.product,
+			productInfo: product,
 			externalKey: _.get(product, "fields.externalKey", ""),
 			name: _.get(user, "data.fullName", ""),
 			email: _.get(user, "data.email", ""),

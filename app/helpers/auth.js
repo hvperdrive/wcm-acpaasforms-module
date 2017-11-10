@@ -1,12 +1,16 @@
 require("rootpath")();
-var getModuleMethod = require("app/helpers/modules/lib").getModuleMethod;
+
+var _ = require("lodash");
+
+var getModule = require("@wcm/module-helper").getModule;
 
 module.exports.verifyLogin = function verifyLogin(req, res, next) {
-	var memberAccess = getModuleMethod("members", "MemberAccessMiddleware");
+	return getModule("@wcm/member")
+		.then(function(mod) {
+			if (typeof _.get(mod, "memberAccessMiddleware.hard") !== "function") {
+				return next();
+			}
 
-	if (memberAccess && typeof memberAccess.hard === "function") {
-		return memberAccess.hard(req, res, next);
-	}
-
-	return next();
+			return mod.memberAccessMiddleware.hard(req, res, next);
+		});
 };

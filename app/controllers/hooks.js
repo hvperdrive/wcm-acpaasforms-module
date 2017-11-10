@@ -1,21 +1,15 @@
 require("rootpath")();
 var EventEmitter = require("app/middleware/emitter");
-var variablesHelper = require("../helpers/variables");
 
 function registerEvents() {
-	EventEmitter.registerEvent("acpaasformsSupportSubmit", "acpaasforms");
+	EventEmitter.registerEvent("supportSubmit", "acpaasforms");
 	EventEmitter.registerEvent("acpaasformsFeatureRequestSubmit", "acpaasforms");
 }
 
 function unregisterEvents() {
-	EventEmitter.unRegisterEvent("acpaasformsSupportSubmit", "acpaasforms");
-	EventEmitter.unRegisterEvent("acpaasformsFeatureRequestSubmit", "acpaasforms");
+	EventEmitter.unRegisterEvent("supportSubmit", "acpaasforms");
+	EventEmitter.unRegisterEvent("featureRequestSubmit", "acpaasforms");
 }
-
-var onConfigurationChanged = function onConfigurationChanged() {
-	// Reload config
-	variablesHelper.reload();
-};
 
 var onLoadComplete = function onLoadComplete() {
 	registerEvents();
@@ -35,7 +29,6 @@ var onRemoved = function onRemoved() {
 
 module.exports = function handleHooks(hooks) {
 	var myHooks = {
-		onConfigurationChanged: onConfigurationChanged,
 		onEnabled: onEnabled,
 		onDisabled: onDisabled,
 		onRemoved: onRemoved,

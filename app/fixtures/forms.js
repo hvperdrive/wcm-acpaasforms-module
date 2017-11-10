@@ -27,6 +27,22 @@ var productForm = {
 			"uuid": "c6e7aff1-b191-4496-8b3b-6adb3456a4e5",
 		},
 		{
+			"_id": "productInfo",
+			"validation": {
+				"required": false,
+			},
+			"type": "textarea",
+			"label": "Product info",
+			"dataType": "text",
+			"indexed": false,
+			"multiLanguage": false,
+			"options": [],
+			"max": 1,
+			"min": 1,
+			"taxonomyLists": [],
+			"uuid": "5c8bbc49-fe9a-48b7-97dc-31dd6304a203",
+		},
+		{
 			"_id": "type",
 			"validation": {
 				"required": true,
@@ -62,7 +78,7 @@ var productForm = {
 			"max": 1,
 			"min": 1,
 			"taxonomyLists": [],
-			"uuid": "8fd1f970-b72e-4e6d-887c-e8de86901d22"
+			"uuid": "8fd1f970-b72e-4e6d-887c-e8de86901d22",
 		},
 		{
 			"_id": "name",
@@ -79,7 +95,7 @@ var productForm = {
 			"max": 1,
 			"min": 1,
 			"taxonomyLists": [],
-			"uuid": "1d40aef2-a4af-4dcc-8cf8-1f81e2c80da2"
+			"uuid": "1d40aef2-a4af-4dcc-8cf8-1f81e2c80da2",
 		},
 		{
 			"_id": "email",
@@ -96,7 +112,7 @@ var productForm = {
 			"max": 1,
 			"min": 1,
 			"taxonomyLists": [],
-			"uuid": "da2a6ab6-dd4b-4745-8442-6d3e9d06d41e"
+			"uuid": "da2a6ab6-dd4b-4745-8442-6d3e9d06d41e",
 		},
 		{
 			"_id": "subject",

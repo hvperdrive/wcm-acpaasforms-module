@@ -16,7 +16,7 @@ function validateFormData(formData) {
 }
 
 function formEvent(form) {
-	return "acpaasforms" + _.capitalize(_.camelCase(form)) + "Submit";
+	return "acpaasforms" + _.upperFirst(_.camelCase(form)) + "Submit";
 }
 
 module.exports.submit = function submit(req, res) {

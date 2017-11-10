@@ -17,9 +17,12 @@ module.exports.isImage = function isImage(mimetype) {
 };
 
 module.exports.validMimeType = function validMimeType(file) {
-	var mimeTypes = variablesHelper().fileUpload.variables.mimeTypes.split(",");
+	return variablesHelper()
+		.then(function(variables) {
+			var mimeTypes = variables.fileUpload.variables.mimeTypes.split(",");
 
-	return mimeTypes.indexOf(file.mimetype) >= 0;
+			return mimeTypes.indexOf(file.mimetype) >= 0;
+		});
 };
 
 module.exports.link = function link(data, type) {

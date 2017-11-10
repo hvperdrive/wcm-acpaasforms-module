@@ -34,7 +34,9 @@ function connect() {
 
 	try {
 		// Start mongoose connection
-		mongoose.connect(mongoPath);
+		mongoose.connect(mongoPath, {
+			useMongoClient: true,
+		});
 		mongoose.Promise = Q.Promise;
 	} catch (err) {
 		console.log("MONGOOSE CONNECTION ERROR", err);

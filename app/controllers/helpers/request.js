@@ -1,7 +1,8 @@
 require("rootpath")();
-var request = require("request");
+
 var _ = require("lodash");
 var Q = require("q");
+var request = require("request");
 var ErrorHandler = require("./error");
 
 module.exports = function(data) {

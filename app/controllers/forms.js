@@ -2,7 +2,7 @@ require("rootpath")();
 var _ = require("lodash");
 var toObj = require("form-data-to-object").toObj;
 
-var EventEmitter = require("app/middleware/emitter");
+var EventEmitter = require("@wcm/module-helper").emitter;
 var formHandler = require("./helpers/form");
 
 function validateFormData(formData) {

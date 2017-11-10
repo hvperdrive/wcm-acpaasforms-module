@@ -1,5 +1,5 @@
 require("rootpath")();
-var EventEmitter = require("app/middleware/emitter");
+var EventEmitter = require("@wcm/module-helper").emitter;
 
 function registerEvents() {
 	EventEmitter.registerEvent("supportSubmit", "acpaasforms");

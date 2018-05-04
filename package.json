@@ -1,6 +1,6 @@
 {
   "name": "@wcm/acpaasforms",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Forms module for AcPaaS Portal",
   "main": "app",
   "scripts": {
@@ -72,7 +72,7 @@
     "request": "^2.81.0",
     "rootpath": "^0.1.2",
     "streamifier": "^0.1.1",
-    "@wcm/module-helper": "git+git@github.com:hvperdrive/wcm-module-helper.git"
+    "@wcm/module-helper": "1.0.0"
   },
   "devDependencies": {
     "@district01/eslint-config": "~1.0.0",

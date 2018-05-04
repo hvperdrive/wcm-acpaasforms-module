@@ -32,4 +32,5 @@ message=[message]
 
 Please read the following on how to work with WCM modules before changing anything to this repo.
 
-[Modules manual](https://github.com/hvperdrive/pelorus-cms/blob/develop/readmes/modules.md)
+[Modules manual](https://github.com/hvperdrive/pelorus-cms/blob/develop/readmes/modules.md) <br>
+[Modules manual on Digipolis Bitbucket](https://bitbucket.antwerpen.be/projects/WCM/repos/wcm/browse/readmes/modules.md)

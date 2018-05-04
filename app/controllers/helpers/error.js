@@ -1,4 +1,5 @@
 require("rootpath")();
+
 var _ = require("lodash");
 var uuid = require("node-uuid");
 var ErrorModel = require("app/models/errorLog");

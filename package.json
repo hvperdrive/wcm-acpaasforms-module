@@ -1,53 +1,97 @@
 {
-    "name": "acpaasforms",
-    "version": "0.0.38",
-    "description": "Forms module for AcPaaS Portal",
-    "main": "app/routes/index.js",
-    "scripts": {
-        "fixtures": "node ./app/scripts/fixtures.js",
-        "test": "NODE_ENV=test ./node_modules/.bin/istanbul cover --dir ./coverage ./node_modules/.bin/_mocha -- -R spec -t 15000 --recursive --slow 2"
-    },
-    "keywords": [
-        "solr",
-        "forms"
-    ],
-    "wcmModule": {
-        "backend": {
-            "dirPath": "app/",
-            "routeDirPaths": [
-                "app/routes/"
-            ]
-        }
-    },
-    "author": "Jeroen Valcke",
-    "license": "MIT",
-    "dependencies": {
-        "form-data-to-object": "^0.2.0",
-        "lodash": "~4.17.4",
-        "multer": "^1.3.0",
-        "node-uuid": "~1.4.8"
-    },
-    "devDependencies": {
-        "@district01/eslint-config": "~1.0.0",
-        "apidoc-swagger": "git+https://github.com/JvJefke/apidoc-swagger.git",
-        "chai": "~3.5.0",
-        "eslint": "~3.19.0",
-        "gulp": "~3.9.1",
-        "gulp-angular-templatecache": "~2.0.0",
-        "gulp-apidoc": "~0.2.0",
-        "gulp-apidoc-swagger": "~0.2.2",
-        "gulp-clean": "~0.3.2",
-        "gulp-replace": "~0.5.4",
-        "gulp-zip": "~3.2.0",
-        "install": "~0.8.4",
-        "istanbul": "~0.4.5",
-        "jshint": "~2.9.4",
-        "mocha": "~3.4.1",
-        "mockery": "~2.0.0",
-        "mongoose": "~4.9.9",
-        "nock": "~9.0.13",
-        "node-uuid": "~1.4.8",
-        "rewire": "~2.5.2",
-        "run-sequence": "~1.2.2"
-    }
+  "name": "@wcm/acpaasforms",
+  "version": "1.0.1",
+  "description": "Forms module for AcPaaS Portal",
+  "main": "app",
+  "scripts": {
+    "fixtures": "node ./app/scripts/fixtures.js",
+    "test": "NODE_ENV=test ./node_modules/.bin/istanbul cover --dir ./coverage ./node_modules/.bin/_mocha -- -R spec -t 15000 --recursive --slow 2"
+  },
+  "keywords": [
+    "solr",
+    "forms"
+  ],
+  "wcmModule": {
+    "variables": [
+      {
+        "group": "Digital Assets Manager Setup",
+        "key": "digitalAssets",
+        "accordion": true,
+        "variables": [
+          {
+            "label": "Digital Assets api Url",
+            "description": "Url of the DAM Express api",
+            "key": "target",
+            "type": "text",
+            "required": true,
+            "value": ""
+          },
+          {
+            "label": "Digital Assets apiKey",
+            "description": "ApiKey of the DAM Express contract",
+            "key": "apiKey",
+            "type": "text",
+            "required": true,
+            "value": ""
+          },
+          {
+            "label": "Digital Assets userId",
+            "description": "UserId of the DAM Express contract",
+            "key": "userId",
+            "type": "text",
+            "required": true,
+            "value": ""
+          }
+        ]
+      },
+      {
+        "group": "File upload config",
+        "key": "fileUpload",
+        "accordion": true,
+        "variables": [
+          {
+            "label": "Allowed Mime Types",
+            "description": "List of allowed mime types (comma separated)",
+            "key": "mimeTypes",
+            "type": "text",
+            "required": true,
+            "value": "application/msword,application/vnd.ms-excel,application/vnd.ms-excel.template.macroEnabled.12,application/vnd.ms-excel.template.macroenabled.12,application/vnd.ms-excel.sheet.macroEnabled.12,application/vnd.ms-excel.sheet.macroenabled.12,application/vnd.ms-powerpoint,application/msword,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,image/jpeg,image/png,image/pjpeg,image/gif,image/svg+xml,text/csv,text/plain,text/vcard,text/xml,text/x-markdown,application/zip,application/x-zip,application/x-zip-compressed"
+          }
+        ]
+      }
+    ]
+  },
+  "author": "Jeroen Valcke",
+  "license": "MIT",
+  "dependencies": {
+    "form-data-to-object": "^0.2.0",
+    "lodash": "~4.17.4",
+    "multer": "^1.3.0",
+    "node-uuid": "~1.4.8",
+    "pinkie": "^2.0.4",
+    "request": "^2.81.0",
+    "rootpath": "^0.1.2",
+    "streamifier": "^0.1.1",
+    "@wcm/module-helper": "1.0.0"
+  },
+  "devDependencies": {
+    "@district01/eslint-config": "~1.0.0",
+    "apidoc-swagger": "git+https://github.com/JvJefke/apidoc-swagger.git",
+    "chai": "~3.5.0",
+    "eslint": "~3.19.0",
+    "gulp": "~3.9.1",
+    "gulp-angular-templatecache": "~2.0.0",
+    "gulp-apidoc": "~0.2.0",
+    "gulp-apidoc-swagger": "~0.2.2",
+    "gulp-replace": "~0.5.4",
+    "install": "~0.8.4",
+    "istanbul": "~0.4.5",
+    "jshint": "~2.9.4",
+    "mocha": "~3.4.1",
+    "mockery": "~2.0.0",
+    "mongoose": "~4.9.9",
+    "nock": "~9.0.13",
+    "node-uuid": "~1.4.8",
+    "rewire": "~2.5.2"
+  }
 }

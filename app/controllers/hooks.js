@@ -1,34 +1,38 @@
-// var variablesHelper = require("../helpers/variables");
+require("rootpath")();
+var EventEmitter = require("@wcm/module-helper").emitter;
 
-var onConfigurationChanged = function onConfigurationChanged() {
-	console.log("on configuration changed");
-	// Reload config
-	// variablesHelper.reload();
+function registerEvents() {
+	EventEmitter.registerEvent("supportSubmit", "acpaasforms");
+	EventEmitter.registerEvent("acpaasformsFeatureRequestSubmit", "acpaasforms");
+}
+
+function unregisterEvents() {
+	EventEmitter.unRegisterEvent("supportSubmit", "acpaasforms");
+	EventEmitter.unRegisterEvent("featureRequestSubmit", "acpaasforms");
+}
+
+var onLoadComplete = function onLoadComplete() {
+	registerEvents();
 };
 
-var beforeRemove = function beforeRemove() {
-	console.log("before remove");
+var onEnabled = function onEnabled() {
+	registerEvents();
 };
 
 var onDisabled = function onDisabled() {
-	console.log("on disabled");
+	unregisterEvents();
 };
 
-var beforeDisable = function beforeDisable() {
-	console.log("before disable");
-};
-
-var onRemoved = function() {
-	console.log("on removed");
+var onRemoved = function onRemoved() {
+	unregisterEvents();
 };
 
 module.exports = function handleHooks(hooks) {
 	var myHooks = {
-		onConfigurationChanged: onConfigurationChanged,
-		beforeRemove: beforeRemove,
-		onRemoved: onRemoved,
+		onEnabled: onEnabled,
 		onDisabled: onDisabled,
-		beforeDisable: beforeDisable,
+		onRemoved: onRemoved,
+		onLoadComplete: onLoadComplete,
 	};
 
 	Object.assign(hooks, myHooks);

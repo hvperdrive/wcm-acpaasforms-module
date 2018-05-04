@@ -18,10 +18,15 @@ This module gives you endpoints to post support & feature-request forms for ACPa
 ## Usage
 
 ### API
-...
+[POST] `/acpaasforms/:form` - Submit form
+#### Request body (multipart formdata)
+```
+product=[product uuid]&
+subject=[subject]&
+message=[message]
 
-### Implementation
-...
+[+ attachements]
+```
 
 ## Module development
 

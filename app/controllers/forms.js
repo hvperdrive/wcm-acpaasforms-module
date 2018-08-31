@@ -1,9 +1,9 @@
 require("rootpath")();
-var _ = require("lodash");
-var toObj = require("form-data-to-object").toObj;
+const _ = require("lodash");
+const toObj = require("form-data-to-object").toObj;
 
-var EventEmitter = require("@wcm/module-helper").emitter;
-var formHandler = require("./helpers/form");
+const EventEmitter = require("@wcm/module-helper").emitter;
+const formHandler = require("./helpers/form");
 
 function validateFormData(formData) {
 	return ["product", "subject", "message"].reduce(function(errs, field) {
@@ -16,12 +16,12 @@ function validateFormData(formData) {
 }
 
 function formEvent(form) {
-	return "acpaasforms" + _.upperFirst(_.camelCase(form)) + "Submit";
+	return "acpaasforms.acpaasforms" + _.upperFirst(_.camelCase(form)) + "Submit";
 }
 
 module.exports.submit = function submit(req, res) {
-	var formData = toObj(req.body);
-	var validationErrors = validateFormData(formData);
+	const formData = toObj(req.body);
+	const validationErrors = validateFormData(formData);
 
 	if (validationErrors) {
 		return res.status(400).json(validationErrors);

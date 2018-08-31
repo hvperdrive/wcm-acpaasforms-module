@@ -1,39 +1,20 @@
-require("rootpath")();
-var EventEmitter = require("@wcm/module-helper").emitter;
+const eventsHelper = require("../helpers/events");
 
-function registerEvents() {
-	EventEmitter.registerEvent("supportSubmit", "acpaasforms");
-	EventEmitter.registerEvent("acpaasformsFeatureRequestSubmit", "acpaasforms");
-}
-
-function unregisterEvents() {
-	EventEmitter.unRegisterEvent("supportSubmit", "acpaasforms");
-	EventEmitter.unRegisterEvent("featureRequestSubmit", "acpaasforms");
-}
-
-var onLoadComplete = function onLoadComplete() {
-	registerEvents();
+const onEnabled = () => {
+	eventsHelper.registerEvents();
 };
 
-var onEnabled = function onEnabled() {
-	registerEvents();
+const onDisabled = () => {
+	eventsHelper.unregisterEvents();
 };
 
-var onDisabled = function onDisabled() {
-	unregisterEvents();
+const onRemoved = () => {
+	eventsHelper.unregisterEvents();
 };
 
-var onRemoved = function onRemoved() {
-	unregisterEvents();
-};
+module.exports = (hooks) => Object.assign(hooks, {
+	onEnabled: onEnabled,
+	onDisabled: onDisabled,
+	onRemoved: onRemoved,
+});
 
-module.exports = function handleHooks(hooks) {
-	var myHooks = {
-		onEnabled: onEnabled,
-		onDisabled: onDisabled,
-		onRemoved: onRemoved,
-		onLoadComplete: onLoadComplete,
-	};
-
-	Object.assign(hooks, myHooks);
-};

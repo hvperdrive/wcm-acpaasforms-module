@@ -1,9 +1,9 @@
 require("rootpath")();
-var _ = require("lodash");
+const _ = require("lodash");
 
-var ContentModel = require("app/models/content");
-var formTypes = require("../../fixtures/forms");
-var fileHelper = require("./file");
+const ContentModel = require("app/models/content");
+const formTypes = require("../../fixtures/forms");
+const fileHelper = require("./file");
 
 function productExists(uuid) {
 	return ContentModel
@@ -23,7 +23,7 @@ function productExists(uuid) {
 		})
 		.lean()
 		.exec()
-		.then(function(response) {
+		.then((response) => {
 			if (!response) {
 				throw {
 					statusCode: 404,
@@ -32,8 +32,6 @@ function productExists(uuid) {
 			}
 
 			return response;
-		}, function(err) {
-			throw err;
 		});
 }
 
@@ -57,11 +55,15 @@ function parseForm(formData, type, product, user) {
 			name: _.get(user, "data.fullName", ""),
 			email: _.get(user, "data.email", ""),
 			type: type,
-			attachments: formData.attachments.map(function(attachment) {
-				return {
-					value: JSON.stringify(attachment, null, 2),
-				};
-			}),
+			attachments: formData.attachments.reduce((acc, attachment) => {
+				if (!attachment) {
+					return acc;
+				}
+
+				return acc.concat({
+					value: JSON.stringify(attachment, null, 2)
+				});
+			}, []),
 		},
 		meta: {
 			label: "User form: " + formData.subject,
@@ -76,12 +78,10 @@ function parseForm(formData, type, product, user) {
 
 function handleAttachments(type, formData, attachments) {
 	return fileHelper.upload(attachments)
-		.then(function(files) {
+		.then((files) => {
 			return _.assign(formData, {
 				attachments: files,
 			});
-		}, function(err) {
-			throw err;
 		});
 }
 
@@ -89,9 +89,9 @@ function createForm(type, product, user, formData) {
 	return ContentModel.create(parseForm(formData, type, product, user));
 }
 
-module.exports.submit = function(formData, attachments, type, user) {
+module.exports.submit = (formData, attachments, type, user) => {
 	return productExists(formData.product)
-		.then(function(product) {
+		.then((product) => {
 			return handleAttachments(type, formData, attachments)
 				.then(createForm.bind(null, type, product, user));
 		});

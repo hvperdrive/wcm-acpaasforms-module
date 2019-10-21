@@ -1,6 +1,6 @@
 {
   "name": "@wcm/acpaasforms",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Forms module for AcPaaS Portal",
   "main": "app",
   "scripts": {

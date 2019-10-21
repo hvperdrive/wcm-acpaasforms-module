@@ -1,8 +1,6 @@
-"use strict";
+const ObjectId = require("mongoose").Types.ObjectId;
 
-var ObjectId = require("mongoose").Types.ObjectId;
-
-var productForm = {
+const productForm = {
 	"_id": ObjectId("597f38a7a8fe2f5c348c62d4"),
 	"versions": [],
 	"fields": [

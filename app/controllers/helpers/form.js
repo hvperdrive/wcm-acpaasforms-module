@@ -68,6 +68,7 @@ function parseForm(formData, type, product, user) {
 		meta: {
 			label: "User form: " + formData.subject,
 			publishData: new Date().toISOString(),
+			lastModified: new Date().toISOString(),
 			status: "PUBLISHED",
 			published: true,
 			activeLanguages: ["nl"],

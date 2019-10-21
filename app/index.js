@@ -3,8 +3,8 @@ const formRoutes = require("./routes/forms");
 const hooksController = require("./controllers/hooks");
 const eventsHelper = require("./helpers/events");
 
-module.exports = function(app, hooks, info) {
-	variablesHelper.set(info);
+module.exports = (app, hooks, info) => {
+	variablesHelper.setPackageInfo(info);
 	// Setup hooks
 	hooksController(hooks);
     // Set events

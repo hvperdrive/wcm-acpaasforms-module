@@ -1,10 +1,16 @@
-var Q = require("q");
+const Q = require("q");
 
-var VariableHelper = require("@wcm/module-helper").variables;
+const VariableHelper = require("@wcm/module-helper").variables;
 
-var packageInfo = null;
+let packageInfo = null;
 
-module.exports = function() {
+const setPackageInfo = (info) => {
+	packageInfo = info || packageInfo;
+};
+
+module.exports = (info) => {
+	setPackageInfo(info);
+
 	if (packageInfo === null) {
 		return Q.reject("No package info!");
 	}
@@ -16,11 +22,6 @@ module.exports = function() {
 		});
 };
 
-module.exports.set = function set(info) {
-	packageInfo = info;
-};
 
-module.exports.get = function get() {
-	return packageInfo;
-};
-
+module.exports.setPackageInfo = (info) => setPackageInfo(info);
+module.exports.getPackageInfo = () => packageInfo;

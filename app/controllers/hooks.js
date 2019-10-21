@@ -1,5 +1,9 @@
 const eventsHelper = require("../helpers/events");
 
+const onLoadComplete = () => {
+	eventsHelper.registerEvents();
+};
+
 const onEnabled = () => {
 	eventsHelper.registerEvents();
 };
@@ -13,8 +17,9 @@ const onRemoved = () => {
 };
 
 module.exports = (hooks) => Object.assign(hooks, {
-	onEnabled: onEnabled,
-	onDisabled: onDisabled,
-	onRemoved: onRemoved,
+	onEnabled,
+	onDisabled,
+	onRemoved,
+	onLoadComplete,
 });
 
